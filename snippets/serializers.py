@@ -1,6 +1,7 @@
 from datetime import datetime
 from rest_framework import serializers
 from snippets.models import Snippet, Maps_Search_autocomplete
+from snippets.RequestClass import Request
 from django.contrib.auth.models import User
 
 
@@ -27,6 +28,14 @@ class MapSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Maps_Search_autocomplete
         fields = ['id', 'search_place', 'user_id', 'username']
+
+
+class RequestSerializer(serializers.Serializer):
+    userid = serializers.IntegerField()
+    query = serializers.CharField(max_length=200)
+
+    def create(self, data):
+        return Request(data.get('userid'), data.get('query'))
 
 
 # class MapSearchSerializer(serializers.Serializer):
